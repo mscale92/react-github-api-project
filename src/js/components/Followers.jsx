@@ -2,6 +2,7 @@ var React = require('react');
 var Link = require('react-router').Link;
 var $ = require('jquery');
 var GithubUser = require("./GithubUser");
+var Infinite = require('react-infinite');
 
 
 var Followers = React.createClass({
