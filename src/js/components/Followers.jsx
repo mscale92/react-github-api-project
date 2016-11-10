@@ -8,21 +8,32 @@ var Infinite = require('react-infinite');
 var Followers = React.createClass({
 	
     getInitialState: function(){
-    	return {};
+    	return {
+    		page: 1,
+    		loading: false,
+    		followers: []
+    	};
     },
     // abosolutely do not forget this!!
     	// the getInitialState is necessary for setting states
     	//otherwise, null ^(>o<)^
-	componentDidMount: function(){
+	fetchData: function(){
 		var that = this;
 			// that is the this referring to our component
-		 $.getJSON(`https://api.github.com/users/${this.props.params.username}/followers?access_token=8dbd67ccdec639d5803b020db060a7e3d5be27cc`)
-			 .then(
-			 	function(followers){
-				 	
+			this.setState({
+				loading: true
+			});
 
+
+		 $.getJSON(`https://api.github.com/users/${this.props.params.username}/followers?access_token=8dbd67ccdec639d5803b020db060a7e3d5be27cc&page=1&per_page=50`)
+			 .then(
+			 	function(results){
+				 	
+			 		
 				 	that.setState({
-                        followers: followers
+                        followers: that.state.followers.concat(results),
+                        loading: false,
+                        page: +1
                     });
 			 	}
 			 );
@@ -40,9 +51,9 @@ var Followers = React.createClass({
 		return (
 		    <div className="followers-page">
 		        <h2>Followers of {this.props.params.username}</h2>
-		        <ul className="follow-list">
+		        <Infinite className="follow-list" isInfiniteLoading={this.state.loading} onInfiniteLoad={this.fetchData} useWindowAsScrollContainer={true} elementHeight={100} infiniteLoadBeginEdgeOffset={100}>
 		            {this.state.followers.map(this.getFollowers)}
-		        </ul>
+		        </Infinite>
 		    </div>
 		);
 	}
