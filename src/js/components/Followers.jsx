@@ -40,7 +40,7 @@ var Followers = React.createClass({
 	},
 	
 	getFollowers: function(follow){
-		return <GithubUser user={follow} key={follow.id}/>;
+		return <GithubUser user={follow} />;
 	},
 	render: function(){
 		
@@ -51,7 +51,7 @@ var Followers = React.createClass({
 		return (
 		    <div className="followers-page">
 		        <h2>Followers of {this.props.params.username}</h2>
-		        <Infinite className="follow-list" isInfiniteLoading={this.state.loading} onInfiniteLoad={this.fetchData} useWindowAsScrollContainer={true} elementHeight={100} infiniteLoadBeginEdgeOffset={100}>
+		        <Infinite className="follow-list" isInfiniteLoading={this.state.loading} onInfiniteLoad={this.fetchData} useWindowAsScrollContainer elementHeight={100} infiniteLoadBeginEdgeOffset={100}>
 		            {this.state.followers.map(this.getFollowers)}
 		        </Infinite>
 		    </div>
